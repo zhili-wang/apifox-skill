@@ -87,6 +87,7 @@ try {
     assert.strictEqual(cfg.projects.length, 2);
     assert.deepStrictEqual(findProject(cfg, "orders"), { id: "111111", name: "orders" });
     assert.deepStrictEqual(findProject(cfg, "222222"), { id: "222222", name: "payments" });
+    assert.deepStrictEqual(findProject(cfg, "ord"), { id: "111111", name: "orders" });
   }
 
   // 4. invalid token format rejected
@@ -142,6 +143,26 @@ try {
   {
     const ids = listCachedProjects();
     assert.deepStrictEqual(ids, ["111111"]);
+  }
+
+  // 9. ambiguous project name prefix is rejected
+  {
+    writeConfig({
+      token: "afs-test-token-123",
+      projects: [
+        { id: "111111", name: "orders" },
+        { id: "222222", name: "orders-v2" },
+      ],
+    });
+    const cfg = readConfig();
+    let threw = false;
+    try {
+      findProject(cfg, "ord");
+    } catch (e) {
+      threw = true;
+      assert(e.message.includes("匹配到多个项目"));
+    }
+    assert(threw, "ambiguous prefix should be rejected");
   }
 
   console.log("✅ End-to-end verification passed!");

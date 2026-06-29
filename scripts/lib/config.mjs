@@ -127,7 +127,7 @@ export function writeConfig(cfg) {
 }
 
 /**
- * Find a project by id or name (case-insensitive prefix match).
+ * Find a project by id or name (case-insensitive exact or unambiguous prefix match).
  * @param {{ token: string, projects: Array<{id: string, name: string}> }} cfg
  * @param {string} idOrName
  */
@@ -135,14 +135,22 @@ export function findProject(cfg, idOrName) {
   const term = String(idOrName || "").trim().toLowerCase();
   if (!term) return cfg.projects[0];
 
+  // Exact match by project id
   const byId = cfg.projects.find((p) => p.id === term);
   if (byId) return byId;
 
+  // Exact match by project name
   const byName = cfg.projects.find((p) => p.name.toLowerCase() === term);
   if (byName) return byName;
 
-  const byPrefix = cfg.projects.find((p) => p.name.toLowerCase().startsWith(term));
-  if (byPrefix) return byPrefix;
+  // Prefix match only when it resolves to a single project
+  const prefixMatches = cfg.projects.filter((p) => p.name.toLowerCase().startsWith(term));
+  if (prefixMatches.length === 1) return prefixMatches[0];
+  if (prefixMatches.length > 1) {
+    throw new Error(
+      `项目名 "${idOrName}" 匹配到多个项目：${prefixMatches.map((p) => `${p.name}(${p.id})`).join(", ")}。请使用完整项目名或项目 ID。`
+    );
+  }
 
   throw new Error(`未找到项目：${idOrName}。可用项目：${cfg.projects.map((p) => `${p.name}(${p.id})`).join(", ")}`);
 }

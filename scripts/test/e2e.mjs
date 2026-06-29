@@ -101,7 +101,13 @@ try {
     assert(threw, "invalid token should be rejected");
   }
 
-  // 5. fetch project via mock Apifox API
+  // 5. afxp_ project token accepted
+  {
+    const cfg = writeConfig({ token: "afxp_valid_project_token", projects: [{ id: "333333", name: "demo" }] });
+    assert.strictEqual(cfg.token, "afxp_valid_project_token");
+  }
+
+  // 6. fetch project via mock Apifox API
   const { server, url } = await startMockServer();
   try {
     process.env.APIFOX_API_BASE_URL = url;

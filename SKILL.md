@@ -1,6 +1,6 @@
 ---
 name: apifox-skill
-description: "Use this skill when the user wants to read Apifox API docs. The skill fetches docs directly from Apifox Open API using a single config.json (token + one or more project IDs), caches them locally, and exposes them to the AI without requiring apifox-mcp-server registration. Trigger on Chinese or English requests mentioning Apifox, apifox-mcp, APIFOX_ACCESS_TOKEN, 接口文档, API文档, project-id, 刷新接口文档, Apifox MCP 配置, or setting up API docs MCP."
+description: "Use when the user wants to read, search, or generate code from Apifox API documentation. Automatically fetches and caches OpenAPI specs from Apifox projects and exposes endpoints, schemas, and examples. Trigger on mentions of Apifox, 接口文档, API文档, project-id, 刷新接口文档, or generating models/code from Apifox."
 disable-model-invocation: true
 allowed-tools: Bash(node *)
 argument-hint: "[--token=xxx] [--project-id=123] [--project-id=456] [--project-name=orders]"

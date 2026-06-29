@@ -61,8 +61,8 @@ export function validateConfig(cfg) {
   if (PLACEHOLDERS.has(token) || token.includes("<")) {
     throw new Error("config.json 中的 token 仍是占位符，请先运行初始化");
   }
-  if (!/^afs-/.test(token)) {
-    throw new Error("token 格式无效：Apifox 访问令牌应以 afs- 开头");
+  if (!/^(afs-|afxp_)/.test(token)) {
+    throw new Error("token 格式无效：Apifox 访问令牌应以 afs- 或 afxp_ 开头");
   }
 
   if (!Array.isArray(projects) || projects.length === 0) {

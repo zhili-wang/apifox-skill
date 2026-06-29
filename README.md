@@ -152,3 +152,9 @@ apifox-skill/
 ## 兼容性
 
 遵循 [Agent Skills](https://github.com/vercel-labs/skills) 开放标准，支持通过 `npx skills add` 安装到任意 AI 终端。
+
+## 作者与许可证
+
+- **Author**: wangzl
+- **License**: [MIT](./LICENSE)
+- **Repository**: https://github.com/zhili-wang/apifox-skill

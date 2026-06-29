@@ -1,0 +1,25 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+*.swp
+.idea/
+.vscode/
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Local test artifacts
+*.log
+tmp/
+
+# Skill runtime config (contains secrets)
+config.json
+config.json.bak
+
+# Cached API docs (large, can be refreshed)
+data/cache/

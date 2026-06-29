@@ -1,0 +1,9 @@
+{
+  "token": "afs-xxxxxxxxxxxxxxxxxxxx",
+  "projects": [
+    {
+      "id": "123456",
+      "name": "my-project"
+    }
+  ]
+}

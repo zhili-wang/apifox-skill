@@ -1,12 +1,13 @@
 # apifox-skill
 
-一个遵循 [Agent Skills](https://github.com/vercel-labs/skills) 开放标准的 Agent 技能，**直接替代 apifox-mcp-server**：通过 Apifox Open API 拉取项目接口文档，缓存在本地，让 AI 直接读取、搜索、生成代码。无需再注册单独的 MCP server。
+一个遵循 [Agent Skills](https://github.com/vercel-labs/skills) 开放标准的 Agent 技能，**直接替代 apifox-mcp-server**：通过 Apifox Open API 拉取项目接口文档，缓存在本地，让 AI 直接读取、搜索、生成代码。无需再注册单独的 MCP server，**用户也无需手动执行任何 node 脚本**。
 
 ## 设计要点
 
 - **单配置**：`config.json` 位于 skill 根目录，包含账号级 token 和多个项目 ID
 - **多项目**：`projects` 数组支持一个或多个 Apifox 项目
 - **任意终端**：通过 `npx skills add` 安装后，任何 AI 终端都能使用同一套配置
+- **斜杠命令驱动**：用户输入 `/apifox-skill`，AI 自动完成初始化、拉取、读取
 - **本地缓存**：接口文档拉取后缓存在 `data/cache/`，避免重复请求
 - **安全**：`config.json` 和缓存已加入 `.gitignore`，不会被提交
 
@@ -42,17 +43,65 @@ bash install.sh --all
 
 ## 快速开始
 
-### 1. 初始化配置
+### 1. 启动 skill
+
+在 Claude Code 中输入：
+
+```
+/apifox-skill
+```
+
+AI 会自动：
+
+1. 检查 `config.json` 是否存在
+2. 不存在则询问你的 Apifox token 和项目 ID，然后自动初始化
+3. 存在则读取配置并展示可用项目
+
+### 2. 用自然语言使用
+
+初始化完成后，直接说：
+
+```text
+根据 orders 项目生成 Product 模型代码
+```
+
+AI 会自动调用 `fetch-project.mjs` 和 `read-project.mjs` 读取接口文档，然后生成代码。**用户不需要手动执行 node 脚本**。
+
+## 常用提示词示例
+
+```text
+根据 orders 项目生成所有数据模型的 TypeScript 定义
+根据 payments 项目生成 /transactions 接口的 MVC 代码
+orders 项目 /users GET 接口的响应字段是什么
+列出 orders 项目的所有 POST 接口
+对比 orders 和 payments 两个项目的 User 模型差异
+刷新 orders 项目的接口文档缓存
+```
+
+## AI 内部脚本（供 skill 自动调用，无需用户手动执行）
+
+这些脚本由 AI 在收到自然语言请求时自动调用：
 
 ```bash
+# 初始化/更新配置
 node ~/.claude/skills/apifox-skill/scripts/init.mjs \
   --token=afs-xxx \
   --project-id=123456 --project-name=orders \
-  --project-id=789012 --project-name=payments \
   -y
+
+# 拉取接口文档
+node ~/.claude/skills/apifox-skill/scripts/fetch-project.mjs --project-name=orders
+
+# 读取接口文档
+node ~/.claude/skills/apifox-skill/scripts/read-project.mjs --project-name=orders
+node ~/.claude/skills/apifox-skill/scripts/read-project.mjs --project-name=orders --index
+node ~/.claude/skills/apifox-skill/scripts/read-project.mjs --project-name=orders --path=/users
+
+# 刷新缓存
+node ~/.claude/skills/apifox-skill/scripts/refresh-project.mjs --project-name=orders
 ```
 
-生成的 `config.json`：
+生成的 `config.json` 示例：
 
 ```json
 {
@@ -64,67 +113,17 @@ node ~/.claude/skills/apifox-skill/scripts/init.mjs \
 }
 ```
 
-### 2. 拉取接口文档
-
-```bash
-node ~/.claude/skills/apifox-skill/scripts/fetch-project.mjs --project-name=orders
-```
-
-### 3. 读取接口文档
-
-```bash
-# 完整 spec
-node ~/.claude/skills/apifox-skill/scripts/read-project.mjs --project-name=orders
-
-# 只读索引
-node ~/.claude/skills/apifox-skill/scripts/read-project.mjs --project-name=orders --index
-
-# 只读某个路径
-node ~/.claude/skills/apifox-skill/scripts/read-project.mjs --project-name=orders --path=/users
-```
-
-### 4. 刷新缓存
-
-```bash
-node ~/.claude/skills/apifox-skill/scripts/refresh-project.mjs --project-name=orders
-```
-
-## AI 使用示例
-
-用户：「根据 orders 项目的 API 文档生成 Product 模型代码」
-
-AI 工作流：
-
-1. `read-config.mjs` 确认配置
-2. `fetch-project.mjs --project-name=orders` 拉取文档
-3. `read-project.mjs --project-name=orders` 读取文档
-4. 生成代码
-
 ## 前置条件
 
 - Node.js >= 18
 - Apifox API 访问令牌（Apifox 头像 → 账号设置 → API 访问令牌 → 新建）
 - 至少一个 Apifox 项目 ID（Apifox 项目 → 项目设置 → 基本设置，纯数字）
 
-## 更新配置
-
-重新运行 `init.mjs` 即可覆盖：
-
-```bash
-node ~/.claude/skills/apifox-skill/scripts/init.mjs \
-  --token=afs-new \
-  --project-id=123456 \
-  --project-id=789012 \
-  -y
-```
-
-原 `config.json` 会自动备份为 `config.json.bak`。
-
 ## 凭据安全
 
 - `config.json` 位于 skill 根目录，**已加入 `.gitignore`**，请勿手动提交
 - 拉取的接口文档缓存位于 `data/cache/`，**已加入 `.gitignore`**
-- token 过期或泄漏时，回 Apifox 重新生成并重新运行 `init.mjs`
+- token 过期或泄漏时，回 Apifox 重新生成，然后重新运行 `/apifox-skill`
 
 ## 目录结构
 

@@ -145,9 +145,10 @@ async function main() {
     log(readTemplate());
     log("\n下一步：");
     log("  1. 确保 config.json 不会被提交到 Git（已加入 .gitignore）");
-    log(`  2. 拉取接口文档：node scripts/fetch-project.mjs --project-name=${projects[0].name}`);
-    log(`  3. 读取文档索引：node scripts/read-project.mjs --project-name=${projects[0].name} --index`);
-    log("  4. Apifox 内文档更新后，运行 scripts/refresh-project.mjs 刷新缓存");
+    log(`  2. 用自然语言让 AI 读取文档，例如：`);
+    log(`     「根据 ${projects[0].name} 项目生成 API 模型代码」`);
+    log(`     「列出 ${projects[0].name} 项目的所有接口」`);
+    log(`  3. Apifox 内文档更新后，说「刷新 ${projects[0].name} 项目的接口文档缓存」`);
   } finally {
     rl.close();
   }

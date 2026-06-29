@@ -49,7 +49,7 @@ node "${CLAUDE_SKILL_DIR}/scripts/init.mjs" $ARGUMENTS
 示例参数：
 
 ```bash
---token=afs-xxx \
+--token=afxp-xxx \
   --project-id=123456 --project-name=orders \
   --project-id=789012 --project-name=payments \
   -y

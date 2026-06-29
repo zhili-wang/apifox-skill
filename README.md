@@ -58,10 +58,10 @@ AI 会引导你完成初始化。如果你希望提前准备好信息，按下�
 3. 左侧选择 **API 访问令牌**
 4. 点击 **新建令牌**，填写名称后复制生成的 token
 
-token 格式通常以 `afs-` 开头，例如：
+token 格式通常以 `afxp-` 开头，例如：
 
 ```text
-afs-xxxxxxxxxxxxxxxxxxxx
+afxp-xxxxxxxxxxxxxxxxxxxx
 ```
 
 ### 2. 获取 Apifox 项目 ID
@@ -72,16 +72,22 @@ afs-xxxxxxxxxxxxxxxxxxxx
 
 ### 3. 完成初始化
 
-把上面两项告诉 AI，例如：
+把上面两项告诉 AI，例如用自然语言描述：
 
 ```text
-/apifox-skill --token=afs-xxx --project-id=123456 --project-name=orders -y
+/apifox-skill 新增项目：jianyun-system id：5092279
+```
+
+或者使用完整参数：
+
+```text
+/apifox-skill --token=afxp-xxx --project-id=123456 --project-name=orders -y
 ```
 
 多项目可以重复 `--project-id`：
 
 ```text
-/apifox-skill --token=afs-xxx \
+/apifox-skill --token=afxp-xxx \
   --project-id=123456 --project-name=orders \
   --project-id=789012 --project-name=payments \
   -y
@@ -91,7 +97,7 @@ afs-xxxxxxxxxxxxxxxxxxxx
 
 ```json
 {
-  "token": "afs-xxxxxxxxxxxxxxxxxxxx",
+  "token": "afxp-xxxxxxxxxxxxxxxxxxxx",
   "projects": [
     { "id": "123456", "name": "orders" },
     { "id": "789012", "name": "payments" }

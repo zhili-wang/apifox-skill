@@ -1,0 +1,20 @@
+{
+  "name": "apifox-skill",
+  "version": "1.0.0",
+  "description": "Apifox API Docs skill for AI terminals - fetch, cache, and generate code from Apifox OpenAPI specs",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zhili-wang/apifox-skill.git"
+  },
+  "license": "MIT",
+  "files": [
+    "SKILL.md",
+    "README.md",
+    "scripts",
+    "config.template.json",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18"
+  }
+}

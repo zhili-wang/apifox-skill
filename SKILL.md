@@ -165,6 +165,7 @@ orders 项目有哪些 POST 接口
 apifox-skill/
 ├── SKILL.md                # 本文件
 ├── README.md               # 安装与使用说明
+├── package.json            # 包信息
 ├── config.template.json    # 配置模板
 ├── .gitignore              # 忽略 config.json / data/cache
 └── scripts/

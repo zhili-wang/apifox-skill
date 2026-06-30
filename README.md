@@ -13,17 +13,9 @@
 
 ## 安装
 
-安装 apifox-skill：
+### 方式一：手动克隆（推荐，最稳定）
 
-```bash
-npx skills add zhili-wang/apifox-skill
-```
-
-安装完成后重启 AI 终端，即可使用 `/apifox-skill` 命令。
-
-### 手动克隆（可选）
-
-如果你无法使用 `npx skills add`，也可以直接克隆仓库到对应 AI 终端的 skills 目录：
+直接克隆仓库到对应 AI 终端的 skills 目录，可确保 `scripts/` 等文件完整可用：
 
 **Claude Code：**
 
@@ -37,7 +29,17 @@ git clone https://github.com/zhili-wang/apifox-skill.git ~/.claude/skills/apifox
 git clone https://github.com/zhili-wang/apifox-skill.git ~/.codex/skills/apifox-skill
 ```
 
-克隆完成后重启 AI 终端即可。
+克隆完成后重启 AI 终端，即可使用 `/apifox-skill` 命令。
+
+### 方式二：`npx skills add`
+
+```bash
+npx skills add zhili-wang/apifox-skill
+```
+
+安装完成后重启 AI 终端。
+
+> ⚠️ 注意：部分用户反馈通过 `npx skills add` 安装后技能目录中缺少 `scripts/`。如果安装后发现 `~/.claude/skills/apifox-skill/scripts` 不存在，请改用上面的手动克隆方式。
 
 ## 初始化教程
 
@@ -169,6 +171,7 @@ orders 项目 /users GET 接口的响应字段是什么
 apifox-skill/
 ├── SKILL.md                        # 斜杠命令工作流
 ├── README.md                       # 本文件
+├── package.json                    # 包信息
 ├── config.template.json            # 配置模板
 ├── .gitignore                      # 忽略 config.json / data/cache
 └── scripts/

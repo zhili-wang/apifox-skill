@@ -8,10 +8,8 @@
   },
   "license": "MIT",
   "files": [
-    "SKILL.md",
+    "skills/apifox-skill",
     "README.md",
-    "scripts",
-    "config.template.json",
     "LICENSE"
   ],
   "engines": {

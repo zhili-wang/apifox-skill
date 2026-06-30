@@ -1,0 +1,6 @@
+# Skill runtime config (contains secrets)
+config.json
+config.json.bak
+
+# Cached API docs (large, can be refreshed)
+data/cache/

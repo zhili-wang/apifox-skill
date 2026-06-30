@@ -15,21 +15,25 @@
 
 ### 方式一：手动克隆（推荐，最稳定）
 
-直接克隆仓库到对应 AI 终端的 skills 目录，可确保 `scripts/` 等文件完整可用：
+由于本仓库采用「仓库根目录 + `skills/apifox-skill/` skill 子目录」的结构，手动克隆时需要把 `skills/apifox-skill/` 里的内容放到 AI 终端的 skills 目录：
 
 **Claude Code：**
 
 ```bash
-git clone https://github.com/zhili-wang/apifox-skill.git ~/.claude/skills/apifox-skill
+git clone --depth 1 https://github.com/zhili-wang/apifox-skill.git /tmp/apifox-skill && \
+  cp -R /tmp/apifox-skill/skills/apifox-skill ~/.claude/skills/apifox-skill && \
+  rm -rf /tmp/apifox-skill
 ```
 
 **Codex CLI：**
 
 ```bash
-git clone https://github.com/zhili-wang/apifox-skill.git ~/.codex/skills/apifox-skill
+git clone --depth 1 https://github.com/zhili-wang/apifox-skill.git /tmp/apifox-skill && \
+  cp -R /tmp/apifox-skill/skills/apifox-skill ~/.codex/skills/apifox-skill && \
+  rm -rf /tmp/apifox-skill
 ```
 
-克隆完成后重启 AI 终端，即可使用 `/apifox-skill` 命令。
+完成后重启 AI 终端，即可使用 `/apifox-skill` 命令。
 
 ### 方式二：`npx skills add`
 
@@ -39,7 +43,7 @@ npx skills add zhili-wang/apifox-skill
 
 安装完成后重启 AI 终端。
 
-> ⚠️ 注意：部分用户反馈通过 `npx skills add` 安装后技能目录中缺少 `scripts/`。如果安装后发现 `~/.claude/skills/apifox-skill/scripts` 不存在，请改用上面的手动克隆方式。
+> 💡 提示：本仓库已将 skill 文件放在 `skills/apifox-skill/` 子目录下，`npx skills add` 会完整安装该子目录（包括 `scripts/`）。
 
 ## 初始化教程
 
@@ -113,7 +117,7 @@ afxp-xxxxxxxxxxxxxxxxxxxx
 
 ### 手动配置（可选）
 
-如果你不想通过对话让 AI 初始化，也可以在安装本skill后，在skill根目录手动创建 `config.json`：
+如果你不想通过对话让 AI 初始化，也可以在安装 skill 后，在技能目录（如 `~/.claude/skills/apifox-skill/`）手动创建 `config.json`：
 
 1. 复制配置模板：
 
@@ -169,23 +173,27 @@ orders 项目 /users GET 接口的响应字段是什么
 
 ```text
 apifox-skill/
-├── SKILL.md                        # 斜杠命令工作流
 ├── README.md                       # 本文件
+├── LICENSE                         # 许可证
 ├── package.json                    # 包信息
-├── config.template.json            # 配置模板
-├── .gitignore                      # 忽略 config.json / data/cache
-└── scripts/
-    ├── init.mjs                   # 初始化 / 更新 config.json
-    ├── read-config.mjs            # 读取并校验 config.json
-    ├── fetch-project.mjs          # 拉取项目接口文档并缓存
-    ├── read-project.mjs           # 读取缓存的接口文档
-    ├── refresh-project.mjs        # 刷新缓存
-    ├── lib/
-    │   ├── config.mjs             # config.json 读写校验
-    │   ├── apifox.mjs             # Apifox Open API 客户端
-    │   └── cache.mjs              # 本地缓存管理
-    └── test/
-        └── e2e.mjs                # 端到端测试
+├── .gitignore                      # 根目录忽略规则
+└── skills/
+    └── apifox-skill/               # 实际 skill 目录
+        ├── SKILL.md                # 斜杠命令工作流
+        ├── config.template.json    # 配置模板
+        ├── .gitignore              # 忽略 config.json / data/cache
+        └── scripts/
+            ├── init.mjs            # 初始化 / 更新 config.json
+            ├── read-config.mjs     # 读取并校验 config.json
+            ├── fetch-project.mjs   # 拉取项目接口文档并缓存
+            ├── read-project.mjs    # 读取缓存的接口文档
+            ├── refresh-project.mjs # 刷新缓存
+            ├── lib/
+            │   ├── config.mjs      # config.json 读写校验
+            │   ├── apifox.mjs      # Apifox Open API 客户端
+            │   └── cache.mjs       # 本地缓存管理
+            └── test/
+                └── e2e.mjs         # 端到端测试
 ```
 
 ## 兼容性

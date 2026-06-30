@@ -34,6 +34,16 @@ node "${CLAUDE_SKILL_DIR}/scripts/read-config.mjs"
 
 ### 2. 初始化配置（自动）
 
+解析 `$ARGUMENTS`：
+
+- 如果已经是 `--token=... --project-id=...` 等标准参数格式，直接透传给 `init.mjs`。
+- 如果是自然语言（例如「我的 token 是 afxp-xxx，新增项目：my-project id：123456」），必须先从文本中提取以下信息：
+  1. **token**：匹配 `afxp-` 或 `afs-` 开头的字符串。
+  2. **项目 ID**：匹配纯数字。
+  3. **项目名称**：提取「新增项目：」或「项目名」后面的名称；未提供时使用 `project-{id}`。
+  4. 多个项目时，按同样的方式提取每一组 `id` 和 `name`。
+- 提取完成后，拼成标准参数格式再运行 `init.mjs`。
+
 若 `$ARGUMENTS` 为空，使用 `AskUserQuestion` 依次收集：
 
 1. Apifox API 访问令牌
@@ -53,6 +63,13 @@ node "${CLAUDE_SKILL_DIR}/scripts/init.mjs" $ARGUMENTS
   --project-id=123456 --project-name=orders \
   --project-id=789012 --project-name=payments \
   -y
+```
+
+自然语言示例及转换：
+
+```text
+用户：/apifox-skill 我的 token 是 afxp-xxx，新增项目：my-project id：123456
+AI 转换后：--token=afxp-xxx --project-id=123456 --project-name=my-project -y
 ```
 
 > 若 `${CLAUDE_SKILL_DIR}` 未设置，脚本会从自身位置推导 skill 根目录；命令中也可替换为 skill 安装路径。

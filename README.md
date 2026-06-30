@@ -16,7 +16,7 @@
 ### 方式一：`npx skills add`（推荐）
 
 ```bash
-npx skills add zhili-wang/apifox-skill -g
+npx skills add zhili-wang/apifox-skill
 ```
 
 ### 方式二：本地安装脚本
@@ -72,10 +72,16 @@ afxp-xxxxxxxxxxxxxxxxxxxx
 
 ### 3. 完成初始化
 
-把上面两项告诉 AI，例如用自然语言描述：
+把上面两项告诉 AI，例如用自然语言描述（推荐）：
 
 ```text
-/apifox-skill 新增项目：jianyun-system id：5092279
+/apifox-skill 我的 token 是 afxp-xxx，新增项目：my-project id：123456
+```
+
+如果 token 已经配置过，只需告诉 AI 新增项目即可：
+
+```text
+/apifox-skill 新增项目：my-project id：123456
 ```
 
 或者使用完整参数：
@@ -104,6 +110,33 @@ afxp-xxxxxxxxxxxxxxxxxxxx
   ]
 }
 ```
+
+### 手动配置（可选）
+
+如果你不想通过对话让 AI 初始化，也可以在安装本skill后，在skill根目录手动创建 `config.json`：
+
+1. 复制配置模板：
+
+   ```bash
+   cp config.template.json config.json
+   ```
+
+2. 用编辑器打开 `config.json`，填入你的 token 和项目信息：
+
+   ```json
+   {
+     "token": "afxp-你的实际token",
+     "projects": [{ "id": "123456", "name": "my-project" }]
+   }
+   ```
+
+3. 保存后即可直接使用，例如：
+
+   ```text
+   列出 my-project 项目的所有接口
+   ```
+
+> ⚠️ 注意：`config.json` 已加入 `.gitignore`，不会被提交到 Git，请放心填写真实 token。
 
 ## 快速开始
 

@@ -21,8 +21,6 @@ npx skills add zhili-wang/apifox-skill
 
 安装完成后重启 AI 终端，即可使用 `/apifox-skill` 命令。
 
-> 💡 提示：本仓库的 skill 文件位于 `skills/apifox-skill/` 子目录下，`npx skills add` 会完整安装该子目录，包括 `scripts/`。
-
 ### 方式二：手动克隆（备选）
 
 如果无法使用 `npx skills add`，可以手动把 `skills/apifox-skill/` 里的内容复制到 AI 终端的 skills 目录：

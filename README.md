@@ -13,33 +13,13 @@
 
 ## 安装
 
-### 方式一：`npx skills add`（推荐）
+通过 Agent Skills 标准方式安装：
 
 ```bash
 npx skills add zhili-wang/apifox-skill
 ```
 
-### 方式二：本地安装脚本
-
-```bash
-cd apifox-skill && bash install.sh
-```
-
-默认自动检测已安装的 AI 终端并直接复制安装。也可以指定终端：
-
-```bash
-bash install.sh --claude          # 仅 Claude Code
-bash install.sh --codex           # 仅 Codex CLI
-bash install.sh --claude --codex  # 同时安装到两者
-```
-
-全局安装（Agent Skills 标准枢纽）：
-
-```bash
-bash install.sh --all
-```
-
-`--all` 会先安装到 `~/.agents/skills/apifox-skill`，然后为每个支持的 AI 终端创建符号链接到该全局副本。这样所有终端共享同一份 skill，更新时只需替换全局目录。
+安装完成后重启 AI 终端，即可使用 `/apifox-skill` 命令。
 
 ## 初始化教程
 
@@ -171,7 +151,6 @@ orders 项目 /users GET 接口的响应字段是什么
 apifox-skill/
 ├── SKILL.md                        # 斜杠命令工作流
 ├── README.md                       # 本文件
-├── install.sh                      # 统一本地安装脚本
 ├── config.template.json            # 配置模板
 ├── .gitignore                      # 忽略 config.json / data/cache
 └── scripts/

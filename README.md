@@ -13,9 +13,19 @@
 
 ## 安装
 
-### 方式一：手动克隆（推荐，最稳定）
+### 方式一：`npx skills add`（推荐）
 
-由于本仓库采用「仓库根目录 + `skills/apifox-skill/` skill 子目录」的结构，手动克隆时需要把 `skills/apifox-skill/` 里的内容放到 AI 终端的 skills 目录：
+```bash
+npx skills add zhili-wang/apifox-skill
+```
+
+安装完成后重启 AI 终端，即可使用 `/apifox-skill` 命令。
+
+> 💡 提示：本仓库的 skill 文件位于 `skills/apifox-skill/` 子目录下，`npx skills add` 会完整安装该子目录，包括 `scripts/`。
+
+### 方式二：手动克隆（备选）
+
+如果无法使用 `npx skills add`，可以手动把 `skills/apifox-skill/` 里的内容复制到 AI 终端的 skills 目录：
 
 **Claude Code：**
 
@@ -33,17 +43,7 @@ git clone --depth 1 https://github.com/zhili-wang/apifox-skill.git /tmp/apifox-s
   rm -rf /tmp/apifox-skill
 ```
 
-完成后重启 AI 终端，即可使用 `/apifox-skill` 命令。
-
-### 方式二：`npx skills add`
-
-```bash
-npx skills add zhili-wang/apifox-skill
-```
-
-安装完成后重启 AI 终端。
-
-> 💡 提示：本仓库已将 skill 文件放在 `skills/apifox-skill/` 子目录下，`npx skills add` 会完整安装该子目录（包括 `scripts/`）。
+完成后重启 AI 终端。
 
 ## 初始化教程
 
